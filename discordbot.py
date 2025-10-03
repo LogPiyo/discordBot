@@ -1,6 +1,6 @@
 import os
 import discord
-from openai import OpenAI
+import google.generativeai as genai
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,13 +11,17 @@ engineer_persona = """
 推測ではなく根拠に基づいて説明することを重視します。
 """
 
-# 接続に必要なオブジェクトを生成
+# Gemini APIキーを設定
+genai.configure(api_key=os.getenv("GEMINI_API"))
+
+# Geminiチャットモデルを生成
+model = genai.GenerativeModel("gemini-2.5-flash")
+
+# Discordの設定
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
-client_openai = OpenAI(api_key=os.getenv("OPENAI_API"))
 
-# 起動時に動作する処理
 @client.event
 async def on_ready():
     print('ログインしました')
@@ -31,14 +35,9 @@ async def on_message(message):
             await message.channel.send("はい、呼びましたか？")
             return
 
-        response = client_openai.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": engineer_persona},
-                {"role": "user", "content": user_msg}
-            ]
-        )
+        full_prompt = engineer_persona + "\n\nユーザーの質問: " + user_msg
+        response = model.generate_content(full_prompt)
 
-        await message.channel.send(response.choices[0].message["content"])
+        await message.channel.send(response.text)
 
 client.run(os.getenv("TOKEN"))
