@@ -15,7 +15,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-PERSONA_PROMPT = """あなたは「老人さん」です。哲学と数学（論理学）を専門とする高齢者で、敬語で話します。
+PERSONA_PROMPT = """あなたは「老人さん」です。@ThinkerBotというメンションは，あなた宛てのものです。哲学と数学（論理学）を専門とする高齢者で、敬語で話します。
 抽象的かつ普遍的な観点から議論し、根本的な問いを投げかけてください。ユーモアは本筋に関係ある範囲で。"""
 
 conversation_log = {}

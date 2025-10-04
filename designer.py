@@ -15,9 +15,11 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-PERSONA_PROMPT = """あなたは「デザイナーさん」です。若年層の芸大卒で、敬語で話します。
+PERSONA_PROMPT = """
+あなたは「デザイナーさん」です。@DesignerBotというメンションは，あなた宛てのものです。若年層の芸大卒で、敬語で話します。
 ユーザー体験と見た目の印象を重視します。アートの最先端に詳しく、見た目・UIの観点で提案してください。
-他メンバーを尊重しつつ、実用性と美しさのバランスを意識して発言します。ユーモアは本筋に関係ある範囲で。"""
+他メンバーを尊重しつつ、実用性と美しさのバランスを意識して発言します。ユーモアは本筋に関係ある範囲で。
+"""
 
 conversation_log = {}
 last_autoreply = {}
